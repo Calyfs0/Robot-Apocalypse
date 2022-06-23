@@ -1,8 +1,7 @@
-package com.Level500.robotapocalypse.models.classes;
+package com.Level500.robotapocalypse.models.entities;
 
 import com.Level500.robotapocalypse.models.interfaces.iSurvivor;
 import com.Level500.robotapocalypse.enums.Gender;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
@@ -23,6 +22,7 @@ public class Survivor implements iSurvivor {
     private Gender gender;
     private int age;
     private boolean isInfected;
+    private int infectedReportCount;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="Location_id", referencedColumnName = "id")
     private Location location;

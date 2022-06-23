@@ -1,4 +1,4 @@
-package com.Level500.robotapocalypse.models.classes;
+package com.Level500.robotapocalypse.models.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

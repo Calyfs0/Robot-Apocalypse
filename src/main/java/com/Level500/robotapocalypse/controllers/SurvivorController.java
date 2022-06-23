@@ -1,12 +1,13 @@
 package com.Level500.robotapocalypse.controllers;
 
-import com.Level500.robotapocalypse.models.classes.Location;
-import com.Level500.robotapocalypse.models.classes.Survivor;
+import com.Level500.robotapocalypse.models.entities.Location;
+import com.Level500.robotapocalypse.models.entities.Survivor;
 import com.Level500.robotapocalypse.models.interfaces.iInfectedSurvivor;
 import com.Level500.robotapocalypse.models.interfaces.iNonInfectedSurvivor;
 import com.Level500.robotapocalypse.services.interfaces.ISurvivorService;
+import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,16 @@ public class SurvivorController {
     public ResponseEntity getNonInfectedSurvivorsPercent(){
        double percentage = survivorService.getNonInfectedSurvivorPercentage();
         return ResponseEntity.ok(percentage);
+    }
+    @RequestMapping(value = "/reportSurvivorInfected", method = RequestMethod.POST)
+    public ResponseEntity reportSurvivorInfected(@RequestBody Long id){
+
+            Survivor survivor = survivorService.reportSurvivorInfection(id);
+            return ResponseEntity.ok(survivor);
+
+
+
+
     }
 
 

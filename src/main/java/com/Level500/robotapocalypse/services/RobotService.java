@@ -1,9 +1,6 @@
 package com.Level500.robotapocalypse.services;
 
-import com.Level500.robotapocalypse.enums.Category;
-import com.Level500.robotapocalypse.models.classes.*;
-import com.Level500.robotapocalypse.models.interfaces.IFlyingRobot;
-import com.Level500.robotapocalypse.models.interfaces.IRobot;
+import com.Level500.robotapocalypse.models.entities.*;
 import com.Level500.robotapocalypse.repo.IRobotRepo;
 import com.Level500.robotapocalypse.services.interfaces.IRobotService;
 import com.google.gson.Gson;
@@ -16,10 +13,8 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -40,10 +35,12 @@ public class RobotService implements IRobotService {
             try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 JSONParser jsonParser = new JSONParser(fileInputStream);
                 Object object = jsonParser.parse();
+                String result = new Gson().toJson(object);
 
-                ArrayList<Robot> arr  = (ArrayList<Robot>) object;
-                String robots = new Gson().toJson(arr);
-                return arr;
+               Robot[] r = new Gson().fromJson(result, Robot[].class);
+                System.out.println(r[0].getManufacturingDate());
+                AddToDatabase(r);
+                return null;
             }
          catch (Exception ex) {
             ex.printStackTrace();
@@ -52,10 +49,8 @@ public class RobotService implements IRobotService {
         return null;
     }
 
+    public void AddToDatabase( Robot[] arr ){
+        iRobotRepo.saveAll(Arrays.asList(arr));
 
-
-
-
-
-
+    }
 }

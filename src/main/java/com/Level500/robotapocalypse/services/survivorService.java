@@ -1,13 +1,12 @@
 package com.Level500.robotapocalypse.services;
 
 import com.Level500.robotapocalypse.enums.Gender;
-import com.Level500.robotapocalypse.models.classes.Location;
-import com.Level500.robotapocalypse.models.classes.Survivor;
+import com.Level500.robotapocalypse.models.entities.Location;
+import com.Level500.robotapocalypse.models.entities.Survivor;
 import com.Level500.robotapocalypse.models.interfaces.iInfectedSurvivor;
 import com.Level500.robotapocalypse.models.interfaces.iNonInfectedSurvivor;
 import com.Level500.robotapocalypse.repo.ISurvivorRepo;
 import com.Level500.robotapocalypse.services.interfaces.ISurvivorService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +20,36 @@ import java.util.stream.Collectors;
 
 
 
-@RequiredArgsConstructor
+
 @Transactional
 @Slf4j
 @Service
 public class survivorService implements ISurvivorService {
 
     private ISurvivorRepo survivorRepo;
-
+    @Autowired
+    survivorService(ISurvivorRepo survivorRepo){
+        this.survivorRepo = survivorRepo;
+    }
     public Survivor getSurvivorByName(String name){
         return survivorRepo.getSurvivorByName(name);
     }
 
     public List<Survivor> getSurvivorByGender(Gender gender){
         return survivorRepo.getSurvivorsByGender(gender);
+    }
+
+    @Override
+    public Survivor reportSurvivorInfection(Long id) {
+        Survivor survivor = survivorRepo.getSurvivorById(id);
+        int currentCount = survivor.getInfectedReportCount();
+        currentCount++;
+        if(currentCount == 3){
+            survivor.setInfected(true);
+        }
+        survivor.setInfectedReportCount(currentCount);
+        survivorRepo.save(survivor);
+        return survivor;
     }
 
     public List<Survivor> getSurvivorsByNameContainingValue(String value){

@@ -1,8 +1,8 @@
 package com.Level500.robotapocalypse.services.interfaces;
 
 import com.Level500.robotapocalypse.enums.Gender;
-import com.Level500.robotapocalypse.models.classes.Location;
-import com.Level500.robotapocalypse.models.classes.Survivor;
+import com.Level500.robotapocalypse.models.entities.Location;
+import com.Level500.robotapocalypse.models.entities.Survivor;
 import com.Level500.robotapocalypse.models.interfaces.iInfectedSurvivor;
 import com.Level500.robotapocalypse.models.interfaces.iNonInfectedSurvivor;
 
@@ -25,4 +25,6 @@ public interface ISurvivorService {
 
     List<Survivor> getSurvivorsByNameContainingValue(String value);
     List<Survivor> getSurvivorByGender(Gender gender);
+
+    Survivor reportSurvivorInfection(Long id);
 }
