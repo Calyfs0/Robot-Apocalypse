@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -36,10 +37,10 @@ public class RobotService implements IRobotService {
                 JSONParser jsonParser = new JSONParser(fileInputStream);
                 Object object = jsonParser.parse();
                 String result = new Gson().toJson(object);
-
+                ArrayList<Robot> arr = (ArrayList<Robot>) object;
                Robot[] r = new Gson().fromJson(result, Robot[].class);
                 AddToDatabase(r);
-                return new ArrayList<>(Arrays.asList(r));
+                return arr;
             }
          catch (Exception ex) {
             ex.printStackTrace();
