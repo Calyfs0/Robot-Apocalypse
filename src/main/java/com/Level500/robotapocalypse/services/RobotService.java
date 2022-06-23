@@ -38,9 +38,8 @@ public class RobotService implements IRobotService {
                 String result = new Gson().toJson(object);
 
                Robot[] r = new Gson().fromJson(result, Robot[].class);
-                System.out.println(r[0].getManufacturingDate());
                 AddToDatabase(r);
-                return null;
+                return new ArrayList<>(Arrays.asList(r));
             }
          catch (Exception ex) {
             ex.printStackTrace();
