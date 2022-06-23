@@ -1,10 +1,14 @@
 package com.Level500.robotapocalypse.services;
 
-import com.Level500.robotapocalypse.classes.Location;
-import com.Level500.robotapocalypse.classes.Survivor;
-import com.Level500.robotapocalypse.repo.ILocationRepo;
+import com.Level500.robotapocalypse.enums.Gender;
+import com.Level500.robotapocalypse.models.classes.Location;
+import com.Level500.robotapocalypse.models.classes.Survivor;
+import com.Level500.robotapocalypse.models.interfaces.iInfectedSurvivor;
+import com.Level500.robotapocalypse.models.interfaces.iNonInfectedSurvivor;
 import com.Level500.robotapocalypse.repo.ISurvivorRepo;
+import com.Level500.robotapocalypse.services.interfaces.ISurvivorService;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,20 +20,28 @@ import java.util.stream.Collectors;
 
 
 
-@NoArgsConstructor
+
+@RequiredArgsConstructor
 @Transactional
 @Slf4j
 @Service
 public class survivorService implements ISurvivorService {
 
     private ISurvivorRepo survivorRepo;
-    private ILocationRepo locationRepo;
 
-    @Autowired
-    survivorService(ISurvivorRepo survivorRepo, ILocationRepo locationRepo){
-        this.survivorRepo = survivorRepo;
-        this.locationRepo = locationRepo;
+    public Survivor getSurvivorByName(String name){
+        return survivorRepo.getSurvivorByName(name);
     }
+
+    public List<Survivor> getSurvivorByGender(Gender gender){
+        return survivorRepo.getSurvivorsByGender(gender);
+    }
+
+    public List<Survivor> getSurvivorsByNameContainingValue(String value){
+        return survivorRepo.getSurvivorsByNameContainingIgnoreCase(value);
+    }
+
+
     @Override
     public void saveSurvivor(Survivor survivor) {
        survivorRepo.save(survivor);
@@ -42,13 +54,13 @@ public class survivorService implements ISurvivorService {
     }
 
     @Override
-    public List<Survivor> getAllInfected() {
+    public List<iInfectedSurvivor> getAllInfected() {
         return survivorRepo.findAll().stream().filter(Survivor::isInfected).collect(Collectors.toList());
 
     }
 
     @Override
-    public List<Survivor> getAllNonInfected() {
+    public List<iNonInfectedSurvivor> getAllNonInfected() {
         return survivorRepo.findAll().stream().filter(survivor -> !survivor.isInfected()).collect(Collectors.toList());
 
     }

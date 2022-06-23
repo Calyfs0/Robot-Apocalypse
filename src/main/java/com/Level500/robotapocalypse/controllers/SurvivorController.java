@@ -1,9 +1,12 @@
 package com.Level500.robotapocalypse.controllers;
 
-import com.Level500.robotapocalypse.classes.Location;
-import com.Level500.robotapocalypse.classes.Survivor;
-import com.Level500.robotapocalypse.services.ISurvivorService;
+import com.Level500.robotapocalypse.models.classes.Location;
+import com.Level500.robotapocalypse.models.classes.Survivor;
+import com.Level500.robotapocalypse.models.interfaces.iInfectedSurvivor;
+import com.Level500.robotapocalypse.models.interfaces.iNonInfectedSurvivor;
+import com.Level500.robotapocalypse.services.interfaces.ISurvivorService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +14,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/api/survivor")
 public class SurvivorController {
     private ISurvivorService survivorService;
-
 
     @RequestMapping(value = "/survivalists", method = RequestMethod.GET)
     public ResponseEntity getAllSurvivors(){
@@ -33,27 +35,29 @@ public class SurvivorController {
 
     @RequestMapping(value = "/infectedsurvivorlists", method = RequestMethod.GET)
     public ResponseEntity getInfectedSurvivors(){
-        List<Survivor> infectedSurvivorList = survivorService.getAllInfected();
+        List<iInfectedSurvivor> infectedSurvivorList = survivorService.getAllInfected();
         return ResponseEntity.ok(infectedSurvivorList);
     }
 
     @RequestMapping(value = "/nonInfectedsurvivorlists", method = RequestMethod.GET)
     public ResponseEntity getNonInfectedSurvivors(){
-        List<Survivor> infectedSurvivorList = survivorService.getAllNonInfected();
+        List<iNonInfectedSurvivor> infectedSurvivorList = survivorService.getAllNonInfected();
         return ResponseEntity.ok(infectedSurvivorList);
     }
 
-    @RequestMapping(value = "/infectedsurvivorpercentage", method = RequestMethod.GET)
+    @RequestMapping(value = "/infectedSurvivorPercentage", method = RequestMethod.GET)
     public ResponseEntity getInfectedSurvivorsPercent(){
         double percentage = survivorService.getInfectedSurvivorPercentage();
         return ResponseEntity.ok(percentage);
     }
 
-    @RequestMapping(value = "/nonInfectedsurvivorpercentage", method = RequestMethod.GET)
+    @RequestMapping(value = "/nonInfectedSurvivorPercentage", method = RequestMethod.GET)
     public ResponseEntity getNonInfectedSurvivorsPercent(){
        double percentage = survivorService.getNonInfectedSurvivorPercentage();
         return ResponseEntity.ok(percentage);
     }
+
+
 
 
 }

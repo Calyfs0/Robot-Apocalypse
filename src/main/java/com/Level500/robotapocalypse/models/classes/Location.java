@@ -1,5 +1,4 @@
-package com.Level500.robotapocalypse.classes;
-
+package com.Level500.robotapocalypse.models.classes;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,17 +7,18 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "inventory")
-public class Inventory {
+@Table(name = "location")
+public class Location {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
-    private int water;
-    private int food;
-    private int ammunition;
-    private int medication;
+    @Column(name = "latitude")
+    private double latitude;
+    @Column(name = "longitude")
+    private double longitude;
 }

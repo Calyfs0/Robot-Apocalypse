@@ -1,7 +1,10 @@
-package com.Level500.robotapocalypse.classes;
+package com.Level500.robotapocalypse.models.classes;
 
+import com.Level500.robotapocalypse.models.interfaces.iSurvivor;
 import com.Level500.robotapocalypse.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
 
@@ -13,8 +16,8 @@ import javax.persistence.*;
 @Entity
 @Builder
 @Table(name = "survivors")
-public class Survivor {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+public class Survivor implements iSurvivor {
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) @ReadOnlyProperty
     private Long id;
     private String name;
     private Gender gender;
